@@ -9,7 +9,7 @@ defineProps<{ msg: string }>()
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 class="text-xl text-red-600 font-extrabold">{{ msg }}</h1>
 
   <div class="card">
     <button type="button" @click="increment">count is {{ count }}</button>

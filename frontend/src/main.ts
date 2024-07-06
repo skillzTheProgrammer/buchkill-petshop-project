@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from '@/App.vue'; // Using absolute path
 import '@/style.css'; // Using absolute path
+import '@/index.css'; 
 
 const app = createApp(App);
 
