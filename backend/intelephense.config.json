@@ -1,0 +1,15 @@
+{
+    "files": {
+        "exclude": [
+            "**/vendor/**",
+            "**/storage/**",
+            "**/node_modules/**"
+        ]
+    },
+    "diagnostics": {
+        "ignoredCodes": [
+            1004, 
+            1006
+        ]
+    }
+}
