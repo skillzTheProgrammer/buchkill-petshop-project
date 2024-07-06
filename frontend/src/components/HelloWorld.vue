@@ -12,10 +12,10 @@ defineProps<{ msg: string }>()
   <h1 class="text-xl text-red-600 font-extrabold">{{ msg }}</h1>
 
   <div class="card">
-    <button type="button" @click="increment">count is {{ count }}</button>
+    <button type="button" @click="increment">count is just {{ count }}</button>
     <p>
       Edit
-      <code>components/HelloWorld.vue</code> to test HMR
+      <code>components/HelloWorld.vue</code> to test HMRs
     </p>
   </div>
 
