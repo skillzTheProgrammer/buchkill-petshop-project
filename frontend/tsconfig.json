@@ -16,9 +16,9 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["pinia"]
+    "types": ["pinia","vitest/globals"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/shims-vue.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/shims-vue.d.ts","src/tests/**/*.ts"],
   "exclude": ["node_modules"],
   "references": [
     {
