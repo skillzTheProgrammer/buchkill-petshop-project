@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\ProductService;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -41,6 +42,17 @@ class ProductController extends Controller
         try {
             $product = $this->productService->getSingleProduct($uuid);
             return ResponseHelper::success($product, 'Product retrieved successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
+
+         //this is supposed to be an admin feature i think but for the purpose of this project users can update product
+    public function update(UpdateProductRequest $request, $uuid)
+    {
+        try {
+            $product = $this->productService->update($uuid, $request->validated());
+            return ResponseHelper::success($product, 'Product updated successfully');
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage());
         }

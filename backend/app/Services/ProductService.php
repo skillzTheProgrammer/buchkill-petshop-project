@@ -21,4 +21,11 @@ class ProductService
         return Product::where('uuid', $uuid)->firstOrFail();
     }
 
+    public function update($uuid, array $data)
+    {
+        $product = $this->getSingleProduct($uuid);
+        $product->update($data);
+        return $product;
+    }
+
 }
