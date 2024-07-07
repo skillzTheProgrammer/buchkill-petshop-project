@@ -39,7 +39,7 @@ class OrderSeeder extends Seeder
                     'payment_id' => $payment ? $payment->id : null,
                     'uuid' => Str::uuid(),
                     'products' => json_encode(['product_1' => 'Product details']),
-                    'address' => json_encode(['address' => 'User address']),
+                    'address' => 'Somewhere in the world',
                     'delivery_fee' => 15.00,
                     'amount' => 100.00,
                     'shipped_at' => $status->title === 'shipped' ? now() : null

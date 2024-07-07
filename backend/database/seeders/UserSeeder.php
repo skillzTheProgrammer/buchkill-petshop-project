@@ -11,14 +11,15 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        User::create([
-            'uuid' => Str::uuid(),
-            'first_name' => 'Admin',
-            'last_name' => 'User',
-            'is_admin' => 1,
-            'email' => 'admin@buckhill.co.uk',
-            'password' => Hash::make('admin'),
-        ]);
+        //for admin users
+        // Admin::create([
+        //     'uuid' => Str::uuid(),
+        //     'first_name' => 'Admin',
+        //     'last_name' => 'User',
+        //     'is_admin' => 1,
+        //     'email' => 'admin@buckhill.co.uk',
+        //     'password' => Hash::make('admin'),
+        // ]);
 
         // Create dummy users
         for ($i = 1; $i <= 10; $i++) {
@@ -28,6 +29,8 @@ class UserSeeder extends Seeder
                 'last_name' => "Lastname{$i}",
                 'is_admin' => 0,
                 'email' => "user{$i}@example.com",
+                'phone_number' => "090{$i}90786",
+                'address' => "no {$i} thomson ave nigeria",
                 'password' => Hash::make('userpassword'),
             ]);
         }
