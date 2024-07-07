@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthService
 {
@@ -44,6 +46,44 @@ class AuthService
     public function logout($token)
     {
         $this->jwtService->invalidateToken($token);
+    }
+
+     public function forgotPassword(array $data)
+    {
+        $token = Str::random(60);
+        PasswordReset::updateOrCreate(
+            ['email' => $data['email']],
+            [
+                'email' => $data['email'],
+                'token' => $token,
+                'created_at' => now()
+            ]
+        );
+
+        // Send email logic here
+
+        return $token;
+    }
+
+    public function resetPassword(array $data)
+    {
+        $passwordReset = PasswordReset::where('token', $data['token'])->first();
+
+        if (!$passwordReset) {
+            throw new \Exception('Invalid token');
+        }
+
+        $user = User::where('email', $passwordReset->email)->first();
+
+        if (!$user) {
+            throw new \Exception('User not found');
+        }
+
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        // Delete the token after resetting the password
+        $passwordReset->delete();
     }
    
 }

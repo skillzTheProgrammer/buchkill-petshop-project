@@ -9,6 +9,10 @@ Route::prefix('v1')->group(function () {
     Route::prefix('user')->group(function () {
         Route::post('create', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
+        Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+        Route::post('reset-password-token', [AuthController::class, 'resetPassword']);
+
+        //protected routes
         Route::middleware([VerifyTokenMiddleware::class])->group(function () {
                 Route::post('logout', [AuthController::class, 'logout']);
         });

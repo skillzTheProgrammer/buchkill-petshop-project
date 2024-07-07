@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -45,6 +47,26 @@ class AuthController extends Controller
             return ResponseHelper::success(null, 'Logged out successfully');
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage());
+        }
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        try {
+            $token = $this->authService->forgotPassword($request->validated());
+            return ResponseHelper::success(['token'=>$token], 'Password reset email sent successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
+
+       public function resetPassword(ResetPasswordRequest $request)
+    {
+        try {
+            $this->authService->resetPassword($request->validated());
+            return ResponseHelper::success(null, 'Password reset successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error("Unable to reset password", $e->getMessage());
         }
     }
 
