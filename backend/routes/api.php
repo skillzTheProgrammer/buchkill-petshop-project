@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 
@@ -21,6 +22,11 @@ Route::prefix('v1')->group(function () {
                 Route::delete('', [UserController::class, 'delete']);
                 Route::get('orders', [UserController::class, 'orders']);
         });
+    });
+
+      //product endpoints
+    Route::middleware([VerifyTokenMiddleware::class])->group(function () {
+        Route::get('products', [ProductController::class, 'allProducts']);
     });
 
 });
