@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\PasswordReset;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -70,9 +71,8 @@ class AuthTest extends TestCase
             'last_name' => 'Doe',
             'email' => 'jane.doe@example.com',
             'password' => Hash::make('password'),
-            'avatar' => null,
-            'address' => json_encode(['street' => '456 Main St', 'city' => 'Anytown', 'state' => 'CA']),
             'phone_number' => '123-456-7890',
+            'address' => '456 Main St, Anytown, CA',
             'is_marketing' => false,
         ]);
 
@@ -111,7 +111,7 @@ class AuthTest extends TestCase
                  ]);
     }
 
-     /**
+    /**
      * Test user logout.
      *
      * @return void
@@ -126,7 +126,7 @@ class AuthTest extends TestCase
             'email' => 'jane.doe@example.com',
             'password' => Hash::make('password'),
             'phone_number' => '123-456-7890',
-            'address' => '456 Main St, Anytown, CA', // Provide address as a string
+            'address' => '456 Main St, Anytown, CA',
             'is_marketing' => false,
         ]);
 
@@ -150,5 +150,90 @@ class AuthTest extends TestCase
                      'message' => 'Logged out successfully',
                      'data' => null
                  ]);
+    }
+
+    /**
+     * Test forgot password.
+     *
+     * @return void
+     */
+    public function testForgotPassword()
+    {
+        // Create a user
+        $user = User::create([
+            'uuid' => Str::uuid(),
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'jane.doe@example.com',
+            'password' => Hash::make('password'),
+            'phone_number' => '123-456-7890',
+            'address' => '456 Main St, Anytown, NG',
+            'is_marketing' => false,
+        ]);
+
+        $response = $this->postJson('/api/v1/user/forgot-password', [
+            'email' => 'jane.doe@example.com',
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'success',
+                     'message',
+                     'data' => [
+                         'token'
+                     ]
+                 ]);
+
+        $this->assertDatabaseHas('password_resets', [
+            'email' => 'jane.doe@example.com'
+        ]);
+    }
+
+    /**
+     * Test reset password.
+     *
+     * @return void
+     */
+    public function testResetPassword()
+    {
+        // Create a user
+        $user = User::create([
+            'uuid' => Str::uuid(),
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'jane.doe@example.com',
+            'password' => Hash::make('password'),
+            'phone_number' => '123-456-7890',
+            'address' => '456 Main St, Anytown, CA',
+            'is_marketing' => false,
+        ]);
+
+        // Create a password reset token
+        $token = Str::random(60);
+        PasswordReset::create([
+            'email' => 'jane.doe@example.com',
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+
+        $response = $this->postJson('/api/v1/user/reset-password-token', [
+            'token' => $token,
+            'password' => 'newpassword',
+            'password_confirmation' => 'newpassword',
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'success' => true,
+                     'message' => 'Password reset successfully',
+                     'data' => null
+                 ]);
+
+        $this->assertDatabaseMissing('password_resets', [
+            'email' => 'jane.doe@example.com',
+            'token' => $token
+        ]);
+
+        $this->assertTrue(Hash::check('newpassword', $user->fresh()->password));
     }
 }
