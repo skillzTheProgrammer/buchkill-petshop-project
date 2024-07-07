@@ -28,4 +28,10 @@ class ProductService
         return $product;
     }
 
+     public function delete($uuid)
+    {
+        $product = $this->getSingleProduct($uuid);
+        $product->delete();
+    }
+
 }

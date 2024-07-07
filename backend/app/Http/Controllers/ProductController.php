@@ -47,12 +47,23 @@ class ProductController extends Controller
         }
     }
 
-         //this is supposed to be an admin feature i think but for the purpose of this project users can update product
+    //this is supposed to be an admin feature i think but for the purpose of this project users can update product
     public function update(UpdateProductRequest $request, $uuid)
     {
         try {
             $product = $this->productService->update($uuid, $request->validated());
             return ResponseHelper::success($product, 'Product updated successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
+
+    //this is supposed to be an admin feature i think but for the purpose of this project users can delete product
+    public function destroy($uuid)
+    {
+        try {
+            $this->productService->delete($uuid);
+            return ResponseHelper::success(null, 'Product deleted successfully');
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage());
         }
