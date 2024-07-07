@@ -46,4 +46,14 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage());
         }
     }
+
+       public function orders(Request $request)
+    {
+        try {
+            $orders = $this->userService->orders($request->user());
+            return ResponseHelper::success($orders, 'User orders retrieved successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
 }

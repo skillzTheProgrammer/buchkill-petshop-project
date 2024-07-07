@@ -19,6 +19,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('', [UserController::class, 'show']);
                 Route::put('edit', [UserController::class, 'update']);
                 Route::delete('', [UserController::class, 'delete']);
+                Route::get('orders', [UserController::class, 'orders']);
         });
     });
 

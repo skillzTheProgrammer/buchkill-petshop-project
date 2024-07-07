@@ -24,4 +24,10 @@ class UserService
         $user->delete();
     }
 
+
+    public function orders(User $user)
+    {
+        return $user->orders;
+    }
+
 }
