@@ -16,4 +16,9 @@ class ProductService
         return Product::create($data);
     }
 
+    public function getSingleProduct($uuid)
+    {
+        return Product::where('uuid', $uuid)->firstOrFail();
+    }
+
 }

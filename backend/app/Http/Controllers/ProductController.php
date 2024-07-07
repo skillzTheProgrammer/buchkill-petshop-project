@@ -35,4 +35,14 @@ class ProductController extends Controller
             return ResponseHelper::error($e->getMessage());
         }
     }
+
+    public function show($uuid)
+    {
+        try {
+            $product = $this->productService->getSingleProduct($uuid);
+            return ResponseHelper::success($product, 'Product retrieved successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
 }

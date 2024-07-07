@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware([VerifyTokenMiddleware::class])->group(function () {
         Route::get('products', [ProductController::class, 'allProducts']);
         Route::post('product/create', [ProductController::class, 'store']);
+        Route::get('product/{uuid}', [ProductController::class, 'show']);
     });
 
 });
