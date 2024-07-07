@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
-            $table->json('address')->nullable();
-            $table->string('phone_number')->nullable();
+            $table->string('address');
+            $table->string('phone_number');
             $table->tinyInteger('is_marketing')->default(0);
             $table->timestamps();
             $table->timestamp('last_login_at')->nullable();
