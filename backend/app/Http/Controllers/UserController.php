@@ -36,4 +36,14 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage());
         }
     }
+
+    public function delete(Request $request)
+    {
+        try {
+            $this->userService->delete($request->user());
+            return ResponseHelper::success(null, 'User account deleted successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
 }

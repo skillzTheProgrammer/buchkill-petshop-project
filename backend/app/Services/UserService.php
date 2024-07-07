@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\JwtToken;
 use App\Models\User;
 
 class UserService
@@ -15,6 +16,12 @@ class UserService
     {
         $user->update($data);
         return $user;
+    }
+
+    public function delete(User $user)
+    {
+        JwtToken::where('user_id', $user->id)->delete();
+        $user->delete();
     }
 
 }
