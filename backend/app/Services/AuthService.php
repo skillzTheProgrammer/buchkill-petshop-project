@@ -40,5 +40,10 @@ class AuthService
 
         return $this->jwtService->createToken($user);
     }
+
+    public function logout($token)
+    {
+        $this->jwtService->invalidateToken($token);
+    }
    
 }

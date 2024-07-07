@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -33,6 +34,17 @@ class AuthController extends Controller
             return ResponseHelper::success(['token' => $token], 'Login successful');
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), [], 401);
+        }
+    }
+
+
+    public function logout(Request $request)
+    {
+        try {
+            $this->authService->logout($request->bearerToken());
+            return ResponseHelper::success(null, 'Logged out successfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
         }
     }
 
