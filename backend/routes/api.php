@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 
 Route::prefix('v1')->group(function () {
@@ -15,6 +16,7 @@ Route::prefix('v1')->group(function () {
         //protected routes
         Route::middleware([VerifyTokenMiddleware::class])->group(function () {
                 Route::post('logout', [AuthController::class, 'logout']);
+                Route::get('', [UserController::class, 'show']);
         });
     });
 
