@@ -110,4 +110,45 @@ class AuthTest extends TestCase
                      'errors' => []
                  ]);
     }
+
+     /**
+     * Test user logout.
+     *
+     * @return void
+     */
+    public function testUserLogout()
+    {
+        // Create a user
+        $user = User::create([
+            'uuid' => Str::uuid(),
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'jane.doe@example.com',
+            'password' => Hash::make('password'),
+            'phone_number' => '123-456-7890',
+            'address' => '456 Main St, Anytown, CA', // Provide address as a string
+            'is_marketing' => false,
+        ]);
+
+        // Log the user in to get a token
+        $loginResponse = $this->postJson('/api/v1/user/login', [
+            'email' => 'jane.doe@example.com',
+            'password' => 'password'
+        ]);
+
+        $loginResponse->assertStatus(200);
+
+        $token = $loginResponse->json('data.token');
+
+        // Logout the user
+        $response = $this->withHeader('Authorization', "Bearer $token")
+                         ->postJson('/api/v1/user/logout');
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'success' => true,
+                     'message' => 'Logged out successfully',
+                     'data' => null
+                 ]);
+    }
 }
