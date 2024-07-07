@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('payment_id')->nullable()->constrained('payments'); // Make payment_id nullable
             $table->uuid('uuid');
             $table->json('products')->nullable();
-            $table->json('address')->nullable();
+            $table->string('address')->nullable();
             $table->double('delivery_fee', 8, 2)->nullable();
             $table->double('amount', 12, 2)->nullable();
             $table->timestamps();

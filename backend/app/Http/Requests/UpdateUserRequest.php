@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'address' => 'nullable|array',
+            'address' => 'nullable|string',
             'phone_number' => 'nullable|string|max:20',
             // 'is_marketing' => 'nullable|boolean',
             'email' => 'nullable|string|email|max:255|unique:users,email,' . $this->user()->id,
