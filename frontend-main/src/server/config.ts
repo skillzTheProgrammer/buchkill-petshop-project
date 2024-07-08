@@ -7,9 +7,11 @@ import axios, {
 import { useAuthStore } from "@/composables/useAuthStore";
 import { TOKEN_ID } from "@/constant";
 
+export const SERVER_URL = "https://pet-shop.buckhill.com.hr/api/v1" as string;
+
 // Create an Axios instance with base configuration
 const http: AxiosInstance = axios.create({
-  baseURL: "https://pet-shop.buckhill.com.hr/api/v1",
+  baseURL: SERVER_URL,
   headers: {
     "Content-Type": "application/json",
   },

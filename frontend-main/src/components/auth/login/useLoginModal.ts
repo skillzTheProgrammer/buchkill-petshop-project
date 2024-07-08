@@ -24,11 +24,9 @@ export function useLoginModal() {
       const response = await http.post(LOGIN_ADMIN, credentials);
       const token: string = response.data.token;
       await authStore.storeToken(token);
-      console.log({ token });
       authStore.hideLogin();
     } catch (err: any) {
       alert(err.error);
-      console.log({ errFromLogin: err });
     } finally {
       loading.value = true;
     }

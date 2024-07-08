@@ -1,10 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import AdminView from "../views/AdminView.vue";
+import AdminView from "@/views/AdminView.vue";
+import ProductView from "@/views/ProductView.vue";
+import ProductDetails from "@/views/ProductDetails.vue";
 import { useAuthStore } from "@/composables/useAuthStore";
 import { TOKEN_ID } from "@/constant";
 
 export const HOME_ROUTE = "/";
 export const CUSTOMERS_ROUTE = "/admin/customers";
+export const PRODUCT_ROUTE = "/admin/products";
+export const PRODUCT_DETAILS_ROUTE = "/admin/product/:uuid";
+export const getProductDetailsRoute = (uuid: string) => `/admin/product/${uuid}`;
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,15 +17,16 @@ const routes: Array<RouteRecordRaw> = [
     name: "admin",
     component: AdminView,
   },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
+  {
+    path: PRODUCT_ROUTE,
+    name: "adminProduct",
+    component: ProductView,
+  },
+  {
+    path: PRODUCT_DETAILS_ROUTE,
+    name: "adminProductDetails",
+    component: ProductDetails,
+  },
 ];
 
 const router = createRouter({
