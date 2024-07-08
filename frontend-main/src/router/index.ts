@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import { useAuthStore } from "@/composables/useAuthStore";
+import { TOKEN_ID } from "@/constant";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,6 +23,18 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+// Navigation guard
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const token = localStorage.getItem(TOKEN_ID);
+  if (!token) {
+    authStore.showLogin(); // Show login modal
+    next(false); // Cancel navigation
+  } else {
+    next();
+  }
 });
 
 export default router;
