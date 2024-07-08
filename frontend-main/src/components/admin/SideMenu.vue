@@ -36,7 +36,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
-import { HOME_ROUTE, CUSTOMERS_ROUTE } from "@/router";
+import { HOME_ROUTE, CUSTOMERS_ROUTE, PRODUCT_ROUTE } from "@/router";
 
 export default defineComponent({
   setup() {
@@ -105,7 +105,7 @@ export default defineComponent({
       },
       {
         text: "Products",
-        path: "/admin/products",
+        path: PRODUCT_ROUTE,
         icon: `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_9501_3410)">
               <g clip-path="url(#clip1_9501_3410)">
