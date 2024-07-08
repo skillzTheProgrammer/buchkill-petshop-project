@@ -18,6 +18,8 @@ const doubleCount = computed(() => counterStore.doubleCount);
 
 const increment = () => counterStore.increment();
 const decrement = () => counterStore.decrement();
+
+console.log({ count });
 </script>
 
 <style scoped>

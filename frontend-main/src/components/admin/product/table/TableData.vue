@@ -1,5 +1,5 @@
 <template>
-  <DataTable :value="products" :loading="loading">
+  <DataTable :value="products" :loading="loading" @row-click="navigateToProduct">
     <Column header="Image">
       <template #body="slotProps">
         <img
@@ -21,6 +21,8 @@ import { defineComponent, computed } from "vue";
 import { useProductStore } from "@/composables/useProductStore";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import { useRouter } from "vue-router";
+import { getProductDetailsRoute } from "@/router";
 
 export default defineComponent({
   name: "TableData",
@@ -29,10 +31,19 @@ export default defineComponent({
     const productStore = useProductStore();
     const products = computed(() => productStore.products);
     const loading = computed(() => productStore.loading);
+    const router = useRouter();
+
+    const navigateToProduct = (event: any) => {
+      console.log({event})
+      const uuid = event.data.uuid;
+      const productDetailsURL = getProductDetailsRoute(uuid);
+      router.push(productDetailsURL);
+    };
 
     return {
       products,
       loading,
+      navigateToProduct,
     };
   },
 });
