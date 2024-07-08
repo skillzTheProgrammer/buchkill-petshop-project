@@ -49,9 +49,7 @@
         <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
       </li>
       <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
+        <a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a>
       </li>
       <li>
         <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
@@ -91,10 +89,7 @@
         >
       </li>
       <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
+        <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener"
           >awesome-vue</a
         >
       </li>
