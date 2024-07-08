@@ -4,7 +4,19 @@
     <router-link to="/about">About</router-link>
   </nav>
   <router-view />
+  <LoginModal />
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import LoginModal from "@/components/auth/login/LoginModal.vue";
+
+export default defineComponent({
+  components: {
+    LoginModal,
+  },
+});
+</script>
 
 <style>
 #app {
