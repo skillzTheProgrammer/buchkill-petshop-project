@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[full-80px] mt-[80px] bg-[#EDF5F1] w-64 flex flex-col shadow-xl">
+  <div class="h-screen mt-[80px] bg-[#EDF5F1] w-64 flex flex-col shadow-xl">
     <nav class="p-0">
       <ul>
         <li v-for="item in menuItems" :key="item.text" class="mb-2">

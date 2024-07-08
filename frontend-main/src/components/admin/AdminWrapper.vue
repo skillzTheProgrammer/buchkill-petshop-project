@@ -1,7 +1,9 @@
 <template>
   <AppNav />
-  <div class="flex h-screen">
+  <div class="fixed">
     <SideMenu />
+  </div>
+  <div class="flex h-screen ml-64">
     <div class="flex-1 flex flex-col mt-[80px] px-5">
       <slot></slot>
     </div>

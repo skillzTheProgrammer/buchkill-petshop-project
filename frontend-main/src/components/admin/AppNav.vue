@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed flex justify-between items-center w-screen h-[80px] pl-[200px] pr-[100px] bg-primary"
+    class="fixed z-40 flex justify-between items-center w-screen h-[80px] pl-[200px] pr-[100px] bg-primary"
   >
     <div class="flex items-center">
       <img class="w-[31px]" src="../../assets/svgs/logo2.svg" />
