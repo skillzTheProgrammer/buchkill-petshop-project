@@ -3,9 +3,12 @@ import AdminView from "../views/AdminView.vue";
 import { useAuthStore } from "@/composables/useAuthStore";
 import { TOKEN_ID } from "@/constant";
 
+export const HOME_ROUTE = "/";
+export const CUSTOMERS_ROUTE = "/admin/customers";
+
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: HOME_ROUTE,
     name: "admin",
     component: AdminView,
   },
