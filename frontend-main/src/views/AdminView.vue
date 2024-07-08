@@ -6,6 +6,7 @@
       <TopNav>
         <DateRangePicker />
       </TopNav>
+      <GraphContainer />
     </div>
   </div>
 </template>
@@ -15,6 +16,7 @@ import { defineComponent } from "vue";
 import SideMenu from "@/components/admin/SideMenu.vue";
 import TopNav from "@/components/admin/TopNav.vue";
 import AppNav from "@/components/admin/AppNav.vue";
+import GraphContainer from "@/components/admin/home/graph/GraphContainer.vue";
 import DateRangePicker from "@/components/admin/home/DateRangePicker.vue";
 
 export default defineComponent({
@@ -23,6 +25,7 @@ export default defineComponent({
     TopNav,
     AppNav,
     DateRangePicker,
+    GraphContainer,
   },
 });
 </script>
