@@ -43,7 +43,8 @@
         <h2 class="text-xl font-semibold mt-4">Products</h2>
         <ul class="list-disc pl-5">
           <li v-for="product in order?.products" :key="product.uuid">
-            {{ product.product }} - {{ product.price }} (Quantity:
+            {{ product.product }} -
+            {{ formatCurrency(product.price, selectedCurrency) }} (Quantity:
             {{ product.quantity }})
           </li>
         </ul>
@@ -94,7 +95,6 @@ export default defineComponent({
       return formatCurrency(convertedPrice.value, selectedCurrency.value);
     });
 
-    console.log({ order });
     const formattedDate = computed(() => {
       if (!order.value?.created_at) {
         return "";
@@ -140,7 +140,10 @@ export default defineComponent({
       });
       const products = order.value.products.map((product) => [
         product.product,
-        `Price: ${product.price} (Quantity: ${product.quantity})`,
+        `Price: ${formatCurrency(
+          product.price,
+          selectedCurrency.value
+        )} (Quantity: ${product.quantity})`,
       ]);
       doc.autoTable({
         head: [["Product", "Details"]],
@@ -157,6 +160,7 @@ export default defineComponent({
       formattedDate,
       downloadPDF,
       convertCurrency,
+      formatCurrency, // To format individual product prices
     };
   },
 });
