@@ -1,4 +1,10 @@
 export const CREATE_ADMIN = "/admin/create";
 export const LOGIN_ADMIN = "/admin/login";
+export const LOGOUT_ADMIN = "/admin/logout";
 export const USER_LISTING_ADMIN = "/admin/user-listing";
+export const PRODUCT_ENDPOINT = "/products";
+export const ORDERS_ENDPOINT = "/orders";
 export const GET_USER = "/user";
+export const getSingleProduct = (uuid: string) => `/product/${uuid}`;
+export const getSingleOrder = (uuid: string) => `/order/${uuid}`;
+export const EXCHANGE_RATES_ENDPOINT = `https://api.exchangerate-api.com/v4/latest/CNY`;

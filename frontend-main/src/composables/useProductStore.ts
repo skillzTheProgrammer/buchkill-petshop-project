@@ -1,4 +1,5 @@
 import http from "@/server/config";
+import { PRODUCT_ENDPOINT } from "@/server/endpoints";
 import { defineStore } from "pinia";
 
 interface Product {
@@ -30,7 +31,7 @@ export const useProductStore = defineStore("productStore", {
     async fetchProducts() {
       this.loading = true;
       try {
-        const response: any = await http.get("/products", {
+        const response: any = await http.get(PRODUCT_ENDPOINT, {
           params: {
             page: this.currentPage,
             limit: this.rowsPerPage,

@@ -154,7 +154,7 @@ export default defineComponent({
       formattedDate,
       downloadPDF,
       convertCurrency,
-      formatCurrency, // To format individual product prices
+      formatCurrency,
     };
   },
 });

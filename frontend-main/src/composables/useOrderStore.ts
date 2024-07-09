@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import http from "@/server/config";
+import { ORDERS_ENDPOINT } from "@/server/endpoints";
 
 interface OrderState {
   orders: any[];
@@ -21,7 +22,7 @@ export const useOrderStore = defineStore("orderStore", {
     async fetchOrders() {
       this.loading = true;
       try {
-        const response: any = await http.get("/orders", {
+        const response: any = await http.get(ORDERS_ENDPOINT, {
           params: {
             page: this.currentPage,
             limit: this.rowsPerPage,

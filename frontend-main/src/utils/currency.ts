@@ -1,10 +1,9 @@
+import { EXCHANGE_RATES_ENDPOINT } from "@/server/endpoints";
 import axios from "axios";
 
 export const fetchExchangeRates = async () => {
   try {
-    const response = await axios.get(
-      "https://api.exchangerate-api.com/v4/latest/CNY"
-    );
+    const response = await axios.get(EXCHANGE_RATES_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error("Error fetching exchange rates:", error);

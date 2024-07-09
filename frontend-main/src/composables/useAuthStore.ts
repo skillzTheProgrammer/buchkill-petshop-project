@@ -2,7 +2,7 @@
 import { defineStore } from "pinia";
 import http from "@/server/config";
 import { TOKEN_ID } from "@/constant";
-import { GET_USER } from "@/server/endpoints";
+import { GET_USER, LOGOUT_ADMIN } from "@/server/endpoints";
 
 interface User {
   email: string;
@@ -52,12 +52,22 @@ export const useAuthStore = defineStore("auth", {
         this.user = response.data.data;
       }
     },
-    async logout() {
+    async removeToken() {
       this.token = null;
       this.user = null;
       localStorage.removeItem(TOKEN_ID);
       delete http.defaults.headers.common["Authorization"];
       this.showLogin();
+    },
+    async logout() {
+      try {
+        await http.post(LOGOUT_ADMIN);
+      } catch (error) {
+        console.error("Error logging out:", error);
+      } finally {
+        this.removeToken();
+        window.location.reload(); // Refresh the page upon logout
+      }
     },
   },
 });
