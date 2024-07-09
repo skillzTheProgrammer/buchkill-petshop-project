@@ -11,7 +11,6 @@ export function useLoginModal() {
   const loading = ref(false);
   const authStore = useAuthStore();
   const show = computed(() => authStore.showLoginModal);
-  console.log({ email, password, rememberMe });
 
   const showSignup = () => {
     authStore.showSignup();
@@ -24,6 +23,7 @@ export function useLoginModal() {
       const response = await http.post(LOGIN_ADMIN, credentials);
       const token: string = response.data.token;
       await authStore.storeToken(token);
+      window.location.reload();
       authStore.hideLogin();
     } catch (err: any) {
       alert(err.error);

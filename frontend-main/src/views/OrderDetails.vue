@@ -39,41 +39,36 @@
           <option value="GBP">British Pound (GBP)</option>
         </select>
       </div>
+      <button
+        @click="downloadPDF"
+        class="mt-4 bg-primary text-white px-4 py-2 rounded"
+      >
+        Download PDF
+      </button>
       <div>
         <h2 class="text-xl font-semibold mt-4">Products</h2>
         <ul class="list-disc pl-5">
           <li v-for="product in order?.products" :key="product.uuid">
-            {{ product.product }} - {{ product.price }} (Quantity:
+            {{ product.product }} -
+            {{ formatCurrency(product.price, selectedCurrency) }} (Quantity:
             {{ product.quantity }})
           </li>
         </ul>
       </div>
-      <button
-        @click="downloadPDF"
-        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Download PDF
-      </button>
     </div>
   </AdminWrapper>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, computed, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import AdminWrapper from "@/components/admin/AdminWrapper.vue";
 import { useOrderDetails } from "@/composables/useOrderDetails";
-import { SERVER_URL } from "@/server/config";
 import TopNav from "@/components/admin/TopNav.vue";
 import { format } from "date-fns";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { fetchExchangeRates, formatCurrency } from "@/utils/currency";
-
-interface ExchangeRates {
-  EUR: number;
-  GBP: number;
-}
 
 export default defineComponent({
   name: "OrderDetails",
@@ -87,14 +82,13 @@ export default defineComponent({
     const order = computed(() => orderDetails.order);
     const loading = computed(() => orderDetails.loading);
     const selectedCurrency = ref("CNY");
-    const exchangeRates = ref<ExchangeRates>({ EUR: 1, GBP: 1 });
+    const exchangeRates = ref({ EUR: 1, GBP: 1 });
     const convertedPrice = ref(order.value?.amount || 0);
 
     const formattedPrice = computed(() => {
       return formatCurrency(convertedPrice.value, selectedCurrency.value);
     });
 
-    console.log({ order });
     const formattedDate = computed(() => {
       if (!order.value?.created_at) {
         return "";
@@ -104,7 +98,7 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const uuid = route.params.uuid as string;
+      const uuid = route.params.uuid;
       await orderDetails.fetchOrder(uuid);
       const rates = await fetchExchangeRates();
       exchangeRates.value = { EUR: rates.rates.EUR, GBP: rates.rates.GBP };
@@ -117,7 +111,7 @@ export default defineComponent({
         convertedPrice.value = order.value.amount;
       } else {
         convertedPrice.value =
-          order.value.amount * (exchangeRates.value as any)[selectedCurrency.value];
+          order.value.amount * exchangeRates.value[selectedCurrency.value];
       }
     };
 
@@ -140,7 +134,10 @@ export default defineComponent({
       });
       const products = order.value.products.map((product) => [
         product.product,
-        `Price: ${product.price} (Quantity: ${product.quantity})`,
+        `Price: ${formatCurrency(
+          product.price,
+          selectedCurrency.value
+        )} (Quantity: ${product.quantity})`,
       ]);
       doc.autoTable({
         head: [["Product", "Details"]],
@@ -157,6 +154,7 @@ export default defineComponent({
       formattedDate,
       downloadPDF,
       convertCurrency,
+      formatCurrency,
     };
   },
 });

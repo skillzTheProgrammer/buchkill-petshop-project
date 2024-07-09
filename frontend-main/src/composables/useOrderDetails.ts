@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import http from "@/server/config";
+import { getSingleOrder } from "@/server/endpoints";
 
 interface Address {
   billing: string;
@@ -74,9 +75,10 @@ export const useOrderDetails = defineStore("orderDetails", {
   }),
   actions: {
     async fetchOrder(uuid: string) {
+      const endpoint = getSingleOrder(uuid);
       this.loading = true;
       try {
-        const response = await http.get(`/order/${uuid}`);
+        const response = await http.get(endpoint);
         this.order = response.data;
       } catch (error) {
         console.error("Error fetching order details:", error);

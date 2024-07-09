@@ -32,12 +32,16 @@ http.interceptors.request.use(
   }
 );
 
-// Add a response interceptor to only return the data
+// Add a response interceptor to handle errors and show login modal if unauthorized
 http.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data;
   },
   (error: AxiosError) => {
+    const authStore = useAuthStore();
+    if (error.response?.status === 401) {
+      authStore.showLogin(); // Show login modal... refresh token??
+    }
     return Promise.reject(error.response?.data);
   }
 );

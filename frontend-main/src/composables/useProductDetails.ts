@@ -1,5 +1,6 @@
-import { Ref, ref } from "vue";
+import { ref } from "vue";
 import http from "@/server/config";
+import { getSingleProduct } from "@/server/endpoints";
 
 export interface Product {
   uuid: string;
@@ -22,9 +23,10 @@ export function useProductDetails() {
   const loading = ref(false);
 
   const fetchProduct = async (uuid: string) => {
+    const endpoint = getSingleProduct(uuid);
     loading.value = true;
     try {
-      const response = await http.get(`/product/${uuid}`);
+      const response = await http.get(endpoint);
       product.value = response.data;
       console.log({ response, product });
     } catch (error) {
