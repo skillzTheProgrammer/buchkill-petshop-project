@@ -1,4 +1,3 @@
-// src/utils/currency.ts
 import axios from "axios";
 
 export const fetchExchangeRates = async () => {
@@ -14,8 +13,17 @@ export const fetchExchangeRates = async () => {
 };
 
 export const formatCurrency = (amount: number, currency: string) => {
-  return new Intl.NumberFormat("en-US", {
+  const options: Intl.NumberFormatOptions = {
     style: "currency",
     currency,
-  }).format(amount);
+  };
+
+  switch (currency) {
+    case "EUR":
+      return new Intl.NumberFormat("de-DE", options).format(amount);
+    case "GBP":
+      return new Intl.NumberFormat("en-GB", options).format(amount);
+    default:
+      return new Intl.NumberFormat("zh-CN", options).format(amount);
+  }
 };

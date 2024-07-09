@@ -26,15 +26,6 @@
         <p class="mb-2"><strong>Payment Type:</strong> {{ order?.payment?.type }}</p>
         <p class="mb-2"><strong>Delivery Fee:</strong> {{ order?.delivery_fee }}</p>
       </div>
-      <div>
-        <h2 class="text-xl font-semibold mt-4">Products</h2>
-        <ul class="list-disc pl-5">
-          <li v-for="product in order?.products" :key="product.uuid">
-            {{ product.product }} - {{ product.price }} (Quantity:
-            {{ product.quantity }})
-          </li>
-        </ul>
-      </div>
       <div class="mt-4">
         <label for="currency" class="mr-2">Display Price in:</label>
         <select
@@ -47,6 +38,15 @@
           <option value="EUR">Euro (EUR)</option>
           <option value="GBP">British Pound (GBP)</option>
         </select>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold mt-4">Products</h2>
+        <ul class="list-disc pl-5">
+          <li v-for="product in order?.products" :key="product.uuid">
+            {{ product.product }} - {{ product.price }} (Quantity:
+            {{ product.quantity }})
+          </li>
+        </ul>
       </div>
       <button
         @click="downloadPDF"

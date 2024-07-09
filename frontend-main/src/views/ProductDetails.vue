@@ -45,6 +45,7 @@ import { useProductDetails } from "@/composables/useProductDetails";
 import { useExchangeRates } from "@/composables/useExchangeRates";
 import { SERVER_URL } from "@/server/config";
 import TopNav from "@/components/admin/TopNav.vue";
+import { formatCurrency } from "@/utils/currency";
 
 export default defineComponent({
   name: "ProductDetails",
@@ -55,7 +56,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const { product, loading, fetchProduct } = useProductDetails();
-    const { rates, fetchExchangeRates } = useExchangeRates();
+    const { rates, fetchRates } = useExchangeRates();
     const selectedCurrency = ref("CNY");
 
     const productImageUrl = computed(() => {
@@ -69,30 +70,17 @@ export default defineComponent({
       const priceInCNY = product.value.price;
       let convertedPrice = priceInCNY;
 
-      if (selectedCurrency.value === "EUR" && rates.value["EUR"]) {
-        convertedPrice = priceInCNY * rates.value["EUR"];
-        return new Intl.NumberFormat("de-DE", {
-          style: "currency",
-          currency: "EUR",
-        }).format(convertedPrice);
-      } else if (selectedCurrency.value === "GBP" && rates.value["GBP"]) {
-        convertedPrice = priceInCNY * rates.value["GBP"];
-        return new Intl.NumberFormat("en-GB", {
-          style: "currency",
-          currency: "GBP",
-        }).format(convertedPrice);
-      } else {
-        return new Intl.NumberFormat("zh-CN", {
-          style: "currency",
-          currency: "CNY",
-        }).format(convertedPrice);
+      if (selectedCurrency.value !== "CNY" && rates.value[selectedCurrency.value]) {
+        convertedPrice = priceInCNY * rates.value[selectedCurrency.value];
       }
+
+      return formatCurrency(convertedPrice, selectedCurrency.value);
     });
 
     onMounted(() => {
       const uuid = route.params.uuid as string;
       fetchProduct(uuid);
-      fetchExchangeRates();
+      fetchRates();
     });
 
     return {
@@ -105,7 +93,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-/* Add any additional styles if necessary */
-</style>
