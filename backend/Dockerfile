@@ -22,7 +22,7 @@ RUN composer install
 # Change ownership of our applications
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 80
-EXPOSE 80
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
 
 CMD ["php-fpm"]

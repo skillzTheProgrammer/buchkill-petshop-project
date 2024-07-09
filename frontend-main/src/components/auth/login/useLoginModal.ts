@@ -11,12 +11,11 @@ export function useLoginModal() {
   const loading = ref(false);
   const authStore = useAuthStore();
   const show = computed(() => authStore.showLoginModal);
-  console.log({ email, password, rememberMe });
 
   const showSignup = () => {
     authStore.showSignup();
   };
-  
+
   const login = async () => {
     try {
       loading.value = true;

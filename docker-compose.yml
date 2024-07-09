@@ -15,17 +15,17 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "5001:80"
+      - "9005:9005"
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
-      - APP_KEY=base64:someRandomKey
       - DB_CONNECTION=pgsql
       - DB_HOST=db
       - DB_PORT=5432
       - DB_DATABASE=laravel
       - DB_USERNAME=root
       - DB_PASSWORD=root
+      - APP_KEY=base64:nt/ElJCcTIYFcGSiyaEtDpl9dhAr37u6Q7VzYQA9EMY=
       - JWT_SECRET=EXA5GoM2dZQAuOfjDKqv2gCvbY1yVKnSXtVTpBNit3T3n191ko4FczB8lm74Q7hY
       - PEM=awesome
     depends_on:
@@ -35,16 +35,16 @@ services:
     command: >
       sh -c "php artisan key:generate &&
              php artisan migrate &&
-             php artisan serve --host=0.0.0.0 --port=80"
+             php artisan serve --host=0.0.0.0 --port=9005"
 
   db:
     image: postgres:13
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: laravel
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      - POSTGRES_DB=laravel
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
     volumes:
       - pgdata:/var/lib/postgresql/data
 
