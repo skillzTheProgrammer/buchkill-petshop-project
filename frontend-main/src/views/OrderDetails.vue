@@ -39,6 +39,12 @@
           <option value="GBP">British Pound (GBP)</option>
         </select>
       </div>
+      <button
+        @click="downloadPDF"
+        class="mt-4 bg-primary text-white px-4 py-2 rounded"
+      >
+        Download PDF
+      </button>
       <div>
         <h2 class="text-xl font-semibold mt-4">Products</h2>
         <ul class="list-disc pl-5">
@@ -49,12 +55,6 @@
           </li>
         </ul>
       </div>
-      <button
-        @click="downloadPDF"
-        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Download PDF
-      </button>
     </div>
   </AdminWrapper>
 </template>
