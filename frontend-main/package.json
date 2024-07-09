@@ -12,6 +12,8 @@
     "@vuepic/vue-datepicker": "^8.8.1",
     "axios": "^1.7.2",
     "core-js": "^3.8.3",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "pinia": "^2.1.7",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/jspdf": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
