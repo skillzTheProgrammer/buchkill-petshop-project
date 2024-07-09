@@ -15,6 +15,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { useRouter } from "vue-router";
 import { format } from "date-fns";
+import { getOrdersDetailsRoute } from "@/router";
 
 export default defineComponent({
   name: "TableData",
@@ -33,7 +34,8 @@ export default defineComponent({
 
     const navigateToOrder = (event: any) => {
       const uuid = event.data.uuid;
-      router.push(`/orders/${uuid}`);
+      const orderDetailsUrl = getOrdersDetailsRoute(uuid);
+      router.push(orderDetailsUrl);
     };
 
     const amountField = (rowData: any) => `CNY ${rowData.amount.toFixed(2)}`;
