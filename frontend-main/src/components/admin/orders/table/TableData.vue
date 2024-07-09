@@ -1,49 +1,72 @@
 <template>
-  <DataTable :value="products" :loading="loading" @row-click="navigateToProduct">
-    <Column header="Image">
-      <template #body="slotProps">
-        <img
-          :src="`https://pet-shop.buckhill.com.hr/api/v1/file/${slotProps.data.metadata.image}`"
-          :alt="slotProps.data.metadata.image"
-          class="w-24 rounded"
-        />
-      </template>
-    </Column>
-    <Column field="title" header="Name"></Column>
-    <Column field="brand.title" header="Brand"></Column>
-    <Column field="category.title" header="Category"></Column>
-    <Column field="created_at" header="Date Created"></Column>
+  <DataTable :value="filteredOrders" :loading="loading" @row-click="navigateToOrder">
+    <Column field="uuid" header="Order UUID"></Column>
+    <Column header="Order Status" :field="statusField"></Column>
+    <Column field="user.first_name" header="Customer"></Column>
+    <Column header="Amount" :field="amountField"></Column>
+    <Column header="Created at" :field="formattedCreatedAt"></Column>
   </DataTable>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-import { useProductStore } from "@/composables/useProductStore";
+import { defineComponent, computed, PropType } from "vue";
+import { useOrderStore } from "@/composables/useOrderStore";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { useRouter } from "vue-router";
-import { getProductDetailsRoute } from "@/router";
+import { format } from "date-fns";
 
 export default defineComponent({
   name: "TableData",
   components: { DataTable, Column },
-  setup() {
-    const productStore = useProductStore();
-    const products = computed(() => productStore.products);
-    const loading = computed(() => productStore.loading);
+  props: {
+    filters: {
+      type: Object as PropType<{ customerName: string; customerUuid: string }>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const orderStore = useOrderStore();
+    const orders = computed(() => orderStore.orders);
+    const loading = computed(() => orderStore.loading);
     const router = useRouter();
 
-    const navigateToProduct = (event: any) => {
-      console.log({event})
+    const navigateToOrder = (event: any) => {
       const uuid = event.data.uuid;
-      const productDetailsURL = getProductDetailsRoute(uuid);
-      router.push(productDetailsURL);
+      router.push(`/orders/${uuid}`);
     };
 
+    const amountField = (rowData: any) => `CNY ${rowData.amount.toFixed(2)}`;
+
+    const statusField = (rowData: any) => rowData.order_status[0].title;
+    const formattedCreatedAt = (rowData: any) =>
+      format(new Date(rowData.created_at), "MMM dd yyyy");
+
+    const filteredOrders = computed(() => {
+      return (
+        orders.value?.filter((order) => {
+          const matchesName = props.filters.customerName
+            ? order.user.first_name
+                .toLowerCase()
+                .includes(props.filters.customerName.toLowerCase())
+            : true;
+          const matchesUuid = props.filters.customerUuid
+            ? order.uuid
+                .toLowerCase()
+                .includes(props.filters.customerUuid.toLowerCase())
+            : true;
+          return matchesName && matchesUuid;
+        }) || []
+      );
+    });
     return {
-      products,
+      orders,
       loading,
-      navigateToProduct,
+      navigateToOrder,
+      amountField,
+      formattedCreatedAt,
+      statusField,
+      filteredOrders,
     };
   },
 });

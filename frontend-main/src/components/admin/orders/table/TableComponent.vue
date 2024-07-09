@@ -1,7 +1,7 @@
 <template>
-  <TableHead />
+  <TableHead @filter="onFilter" />
   <div class="pt-4 pb-20">
-    <TableData />
+    <TableData :filters="filters" />
     <div class="relative">
       <TableControls />
     </div>
@@ -9,23 +9,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, reactive, onMounted } from "vue";
 import TableHead from "./TableHead.vue";
 import TableData from "./TableData.vue";
 import TableControls from "./TableControls.vue";
-import { useProductStore } from "@/composables/useProductStore";
+import { useOrderStore } from "@/composables/useOrderStore";
 
 export default defineComponent({
-  name: "ProductTable",
+  name: "TableComponent",
   components: { TableData, TableControls, TableHead },
   setup() {
-    const productStore = useProductStore();
+    const orderStore = useOrderStore();
     onMounted(() => {
-      productStore.fetchProducts();
+      orderStore.fetchOrders();
     });
+
+    const filters = reactive({
+      customerName: "",
+      customerUuid: "",
+    });
+
+    const onFilter = (newFilters: {
+      customerName: string;
+      customerUuid: string;
+    }) => {
+      filters.customerName = newFilters.customerName;
+      filters.customerUuid = newFilters.customerUuid;
+    };
+
     return {
-      products: productStore.products,
-      loading: productStore.loading,
+      filters,
+      orders: orderStore.orders,
+      loading: orderStore.loading,
+      onFilter,
     };
   },
 });

@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref, watch } from "vue";
+import { defineComponent, computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import AdminWrapper from "@/components/admin/AdminWrapper.vue";
 import { useProductDetails } from "@/composables/useProductDetails";
@@ -93,10 +93,6 @@ export default defineComponent({
       const uuid = route.params.uuid as string;
       fetchProduct(uuid);
       fetchExchangeRates();
-    });
-
-    watch(product, (newProduct) => {
-      console.log("Product data:", newProduct);
     });
 
     return {

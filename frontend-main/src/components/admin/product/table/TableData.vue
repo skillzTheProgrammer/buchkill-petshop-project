@@ -34,7 +34,6 @@ export default defineComponent({
     const router = useRouter();
 
     const navigateToProduct = (event: any) => {
-      console.log({event})
       const uuid = event.data.uuid;
       const productDetailsURL = getProductDetailsRoute(uuid);
       router.push(productDetailsURL);

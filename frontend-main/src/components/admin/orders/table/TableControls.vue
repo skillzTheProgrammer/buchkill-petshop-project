@@ -29,18 +29,18 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { useProductStore } from "@/composables/useProductStore";
+import { useOrderStore } from "@/composables/useOrderStore";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 
 export default defineComponent({
-  name: "TableControl",
+  name: "TableControls",
   components: { Dropdown, Button },
   setup() {
-    const productStore = useProductStore();
-    const rowsPerPage = computed(() => productStore.rowsPerPage);
-    const totalRecords = computed(() => productStore.totalRecords);
-    const currentPage = computed(() => productStore.currentPage);
+    const orderStore = useOrderStore();
+    const rowsPerPage = computed(() => orderStore.rowsPerPage);
+    const totalRecords = computed(() => orderStore.totalRecords);
+    const currentPage = computed(() => orderStore.currentPage);
 
     const rowsOptions = [4, 8, 12, 16];
 
@@ -60,18 +60,18 @@ export default defineComponent({
 
     const onRowsPerPageChange = (event: any) => {
       const rows = event.value;
-      productStore.setRowsPerPage(rows);
+      orderStore.setRowsPerPage(rows);
     };
 
     const previousPage = () => {
       if (hasPreviousPage.value) {
-        productStore.setPage(currentPage.value - 1);
+        orderStore.setPage(currentPage.value - 1);
       }
     };
 
     const nextPage = () => {
       if (hasNextPage.value) {
-        productStore.setPage(currentPage.value + 1);
+        orderStore.setPage(currentPage.value + 1);
       }
     };
 
