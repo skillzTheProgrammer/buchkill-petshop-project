@@ -40,7 +40,7 @@ http.interceptors.response.use(
   (error: AxiosError) => {
     const authStore = useAuthStore();
     if (error.response?.status === 401) {
-      authStore.showLogin(); // Show login modal
+      authStore.showLogin(); // Show login modal... refresh token??
     }
     return Promise.reject(error.response?.data);
   }
