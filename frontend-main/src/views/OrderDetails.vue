@@ -64,7 +64,6 @@ import { defineComponent, computed, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import AdminWrapper from "@/components/admin/AdminWrapper.vue";
 import { useOrderDetails } from "@/composables/useOrderDetails";
-import { SERVER_URL } from "@/server/config";
 import TopNav from "@/components/admin/TopNav.vue";
 import { format } from "date-fns";
 import jsPDF from "jspdf";
