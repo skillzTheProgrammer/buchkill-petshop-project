@@ -59,7 +59,7 @@
   </AdminWrapper>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, computed, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import AdminWrapper from "@/components/admin/AdminWrapper.vue";
@@ -70,11 +70,6 @@ import { format } from "date-fns";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { fetchExchangeRates, formatCurrency } from "@/utils/currency";
-
-interface ExchangeRates {
-  EUR: number;
-  GBP: number;
-}
 
 export default defineComponent({
   name: "OrderDetails",
@@ -88,7 +83,7 @@ export default defineComponent({
     const order = computed(() => orderDetails.order);
     const loading = computed(() => orderDetails.loading);
     const selectedCurrency = ref("CNY");
-    const exchangeRates = ref<ExchangeRates>({ EUR: 1, GBP: 1 });
+    const exchangeRates = ref({ EUR: 1, GBP: 1 });
     const convertedPrice = ref(order.value?.amount || 0);
 
     const formattedPrice = computed(() => {
@@ -104,7 +99,7 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      const uuid = route.params.uuid as string;
+      const uuid = route.params.uuid;
       await orderDetails.fetchOrder(uuid);
       const rates = await fetchExchangeRates();
       exchangeRates.value = { EUR: rates.rates.EUR, GBP: rates.rates.GBP };
@@ -117,7 +112,7 @@ export default defineComponent({
         convertedPrice.value = order.value.amount;
       } else {
         convertedPrice.value =
-          order.value.amount * (exchangeRates.value as any)[selectedCurrency.value];
+          order.value.amount * exchangeRates.value[selectedCurrency.value];
       }
     };
 
